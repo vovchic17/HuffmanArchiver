@@ -57,7 +57,7 @@ class Huffman {
         val data = mutableListOf<Byte>()
         for (i in 260 ..< arch.size)
             for (bit in (0 ..< 8).map { 1 shl it }) {
-                curr = if (arch[i].toInt() and bit == 0)
+                curr = if (arch[i].toUByte().toInt() and bit == 0)
                     curr.right!!
                 else
                     curr.left!!
@@ -83,13 +83,13 @@ class Huffman {
     }
 
     private fun parseHeader(arch: ByteArray): Pair<Int, MutableMap<Byte, Int>> {
-        val length = arch[0].toInt() or
-                (arch[1].toInt() shl 8) or
-                (arch[2].toInt() shl 16) or
-                (arch[3].toInt() shl 24)
+        val length = arch[0].toUByte().toInt() or
+                (arch[1].toUByte().toInt() shl 8) or
+                (arch[2].toUByte().toInt() shl 16) or
+                (arch[3].toUByte().toInt() shl 24)
         val freqs = mutableMapOf<Byte, Int>()
         for (i in 0..255)
-            freqs[i.toByte()] = arch[4 + i].toInt()
+            freqs[i.toByte()] = arch[4 + i].toUByte().toInt()
         return Pair(length, freqs)
     }
 
