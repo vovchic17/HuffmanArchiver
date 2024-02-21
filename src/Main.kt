@@ -113,6 +113,7 @@ class Huffman {
             freqs[i.toByte()] = 0
         for (d in data)
             freqs[d] = freqs[d]!!.inc()
+        normalize(freqs)
         return freqs
     }
 
@@ -126,6 +127,14 @@ class Huffman {
             pq.add(next)
         }
         return pq.poll()
+    }
+
+    private fun normalize(freqs: MutableMap<Byte, Int>) {
+        val max = freqs.maxOf { it.value }
+        if (max <= 255) return;
+        for (i in 0..255)
+            if (freqs[i.toByte()]!! > 0)
+                freqs[i.toByte()] = freqs[i.toByte()]!! * 255 / max
     }
 }
 
